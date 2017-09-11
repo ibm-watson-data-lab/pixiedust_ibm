@@ -1,0 +1,178 @@
+<style>
+.pixiedust-app .expandButton {
+    display: none;
+}
+.pixiedust-app .modal-header {
+    display: none;
+}
+.pixiedust[pixiedust] > .pixiedust[pixiedust] {
+    padding-top: 0;
+    margin-top: 0;
+}
+.watson-ml-app,
+.watson-ml-app .pd_wrapper {
+    background-color: #fff;
+    color: #1d3649;
+    font-size: 14px;
+    font-weight: 300;
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.watson-ml-app .pd_wrapper > div {
+    height: 100%;
+    position: relative;
+}
+.watson-ml-app .pd_dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    color: #959BA0;
+    z-index: 100;
+}
+.watson-ml-app .pd_title {
+    font-size: 24px;
+    margin: 0 0 20px 0;
+}
+.watson-ml-app .pd_main {
+    height: calc(100% - 125px);
+    overflow: auto;
+}
+.watson-ml-app table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+.watson-ml-app table th {
+    color: #1d3649;
+    text-align: left;
+    padding: 5px 20px;
+    border: none;
+    border-top: 1px solid #c7c7c7;
+    border-bottom: 2px solid #e0e0e0;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+}
+.watson-ml-app table th,
+.watson-ml-app table td {
+    height: 50px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.watson-ml-app table th:first-of-type,
+.watson-ml-app table tr td:first-of-type {
+    padding-left: 30px;
+}
+.watson-ml-app table th:last-of-type,
+.watson-ml-app table tr td:last-of-type {
+    padding-right: 30px;
+}
+.watson-ml-app table tbody tr:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+.watson-ml-app table tbody tr.selected {
+    background-color: #ececec;
+}
+.watson-ml-app table tr:not(:last-of-type) {
+    border-bottom: 1px solid #e1e4e5;
+}
+.watson-ml-app table td {
+    color: #777677;
+    border-bottom: 1px solid #e0e0e0;
+}
+.watson-ml-app table tr td:last-of-type {
+    color: #a6266e;
+}
+.watson-ml-app .pd_buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+}
+.watson-ml-app [pd_widget="pdButton"] {
+    display: inline-block;
+}
+.watson-ml-app .formField {
+    margin: 10px 0 60px 0;
+}
+.watson-ml-app .formLabel {
+    display: block;
+    font-weight: 700;
+    font-weight: 700;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: .25rem;
+    color: #264A60;
+}
+.watson-ml-app input[type="text"] {
+    border: 0;
+    border-bottom: 0.125rem solid #777677;
+    color: #1d3649;
+    padding: 0.5rem 0;
+    width: 100%;
+}
+.watson-ml-app textarea {
+    line-height: 1.4;
+    color: #1d3649;
+    width: 100%;
+    padding: .75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    box-sizing: border-box;
+    margin: 0;
+    max-height: 11em;
+    resize: none;
+    padding: .75em;
+}
+.watson-ml-app select {
+    margin: 0;
+    width: 100%;
+    display: block;
+    font-family: inherit;
+    font-size: inherit;
+    box-sizing: border-box;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 0.125rem #a6266e;
+    color: #a6266e;
+    margin: 0.25em 0 1.25em 0;
+    height: 2.35rem;
+}
+.watson-ml-app .dropdown a.dropdown-toggle {
+    font-size: 40px;
+    font-weight: 800;
+    text-decoration: none;
+}
+.watson-ml-app .dropdown-menu {
+    background-color: #264A60;
+    top: 75%;
+}
+.watson-ml-app .dropdown-menu li:hover {
+    background-color: #152935;
+}
+.watson-ml-app .dropdown-menu li a {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: 300;
+}
+.watson-ml-app .dropdown-menu li a:hover {
+    text-decoration: none;
+}
+.watson-ml-app .dropdown-menu li:hover a {
+    background-color: transparent;
+    color: #00b4a0;
+}
+.watson-ml-app .redText {
+    color: red;
+}
+</style>
+<div class="watson-ml-app" pixiedust="{{ pd_controls|htmlAttribute }}">
+  <i class="fa fa-times pd_dismiss" aria-hidden="true" data-dismiss="modal"></i>
+  <div class="pd_wrapper" id="pd_app{{ prefix }}">
+    <div pd_widget="WMLServices"></div>
+  </div>
+</div>
