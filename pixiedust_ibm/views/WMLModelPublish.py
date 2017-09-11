@@ -16,25 +16,29 @@
 
 from pixiedust.display.app import route
 from pixiedust.utils import Logger
-from pixiedust.utils.shellAccess import ShellAccess
 from . import WMLMessage
 
 @Logger()
-class WMLModelDownload(WMLMessage):
-    @route(widget="WMLModelDownload")
-    def wmlModelDownload(self):
+class WMLModelPublish(WMLMessage):
+    @route(widget="WMLModelPublish")
+    def wmlModelPublish(self):
         wrapperid = 'pd_app' + self.getPrefix()
         if not hasattr(self, 'currentmodel') or not self.currentmodel:
             self.renderMessage(message='A Model is required', targetid=wrapperid, btnid='modelerror')
         if not hasattr(self, 'modelformfields'):
             self.renderMessage(message='Missing required fields', targetid=wrapperid, btnid='modelerror')
         else:
-            self.debug('WMLModelDownload.modelformfields: ' + str(self.modelformfields))
+            self.debug('WMLModelPublish.modelformfields: ' + str(self.modelformfields))
             modelnamefield = 'modelname' + self.getPrefix()
+            modeldescfield = 'modeldesc' + self.getPrefix()
             newname = self.modelformfields[modelnamefield] if modelnamefield in self.modelformfields and self.modelformfields[modelnamefield] else 'mlModel'
-            
-            ShellAccess[newname] = self.currentmodel.model_instance()
-            title = 'Download model <code>' + self.currentmodel.name + '</code>'
-            message = 'Model successfully downloaded and stored in variable <code>{}</code>.'.format(newname)
+            newdesc = self.modelformfields[modeldescfield] if modeldescfield in self.modelformfields and self.modelformfields[modeldescfield] else ''
+
+            title = 'Publish model <code>' + self.currentmodel.name + '</code>'
+
+            # TODO: publish model
+
+            # message = 'Model successfully published as <code>{}</code>.'.format(newname)
+            message = 'NOT YET IMPLEMENTED'
             
             self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotomodels')

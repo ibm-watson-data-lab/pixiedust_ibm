@@ -17,6 +17,7 @@
 from .WMLMessage import WMLMessage
 from .WMLModelDetail import WMLModelDetail
 from .WMLModelDownload import WMLModelDownload
+from .WMLModelPublish import WMLModelPublish
 from .WMLModelForm import WMLModelForm
 from .WMLModelsList import WMLModelsList
 from .WMLServices import WMLServices

@@ -16,26 +16,26 @@
 
 from pixiedust.display.app import *
 from pixiedust.utils import Logger
-from .views import WMLModelDetail, WMLModelDownload, WMLModelForm, WMLModelsList, WMLServices
+from .views import WMLModelDetail, WMLModelDownload, WMLModelPublish, WMLModelForm, WMLModelsList, WMLServices
 
 @PixieApp
 @Logger()
-class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLModelDownload):
+class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLModelDownload, WMLModelPublish):
     def getDialogOptions(self):
         return {
             'title': 'Loading WMLPixieApp'
         }
     
     def pdFormUpdate(self, fieldid, fieldvalue):
-        self.debug('WMLServices.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
+        self.debug('WMLPixieApp.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
         if (fieldid == 'mlservice' + self.getPrefix()):
             if fieldvalue:
                 selectedservice = [ml for ml in self.ml_services if ml['guid'] == fieldvalue]
                 self.currentservice = selectedservice[0]
             else:
                 self.currentservice = None
-        elif (fieldid == 'variablename' + self.getPrefix()) or (fieldid == 'modelname' + self.getPrefix()):
-            self.newmodelname = fieldvalue
+        else:
+            self.modelformfields[fieldid] = fieldvalue
 
     def pdButtonClicked(self, btnid):
         self.debug('WMLPixieApp.pdButtonClicked: {}'.format(btnid))
@@ -52,32 +52,36 @@ class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLM
             self.view = 'modelform'
         elif btnid == 'initdownload':
             self.view = 'modeldownload'
-#         elif btnid == 'initpublish':
-#             # TODO
-#             pass
+        elif btnid == 'initpublish':
+            self.view = 'modelpublish'
+            pass
 
 
+    @route(view="modelpublish")
+    def modelPublishView(self):
+        return '<div pd_widget="WMLModelPublish" style="height:100%"></div>'
+    
     @route(view="modeldownload")
-    def modelDownloadScreen(self):
+    def modelDownloadView(self):
         return '<div pd_widget="WMLModelDownload" style="height:100%"></div>'
         
     @route(view="modeldetail")
-    def modelDetailScreen(self):
+    def modelDetailView(self):
         return '<div pd_widget="WMLModelDetail" style="height:100%"></div>'
         
     @route(view="modelform")
-    def modelFormScreen(self):
+    def modelFormView(self):
         return '<div pd_widget="WMLModelForm" style="height:100%"></div>'
         
     @route(view="modelslist")
-    def listModelsScreen(self):
+    def listModelsView(self):
         return '<div pd_widget="WMLModelsList" style="height:100%"></div>'
         
     @route(view="mlservices")
-    def mlServicesScreen(self):
+    def mlServicesView(self):
         return '<div pd_widget="WMLServices" style="height:100%"></div>'
         
     @route()
-    def startScreen(self):
+    def appshellView(self):
         self._addHTMLTemplate('appshell.html')
         # self._addHTMLTemplateString(appshell)

@@ -47,7 +47,7 @@ class WMLModelForm(PDButton, WMLMessage):
     def downloadForm(self):
         return [{
                 'type': 'text',
-                'id':  'variablename' + self.getPrefix(),
+                'id':  'modelname' + self.getPrefix(),
                 'label': 'Variable Name',
                 'required': True,
                 'placeholder': 'Enter a name for the variable',
@@ -64,11 +64,12 @@ class WMLModelForm(PDButton, WMLMessage):
     
     def pdFormUpdate(self, fieldid, fieldvalue):
         self.debug('WMLModelForm.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
+        self.modelformfields[fieldid] = fieldvalue
     
     @route(widget="WMLModelForm")
     def wmlModelForm(self):
         wrapperid = 'pd_app' + self.getPrefix()
-        self.newmodelname = ''
+        self.modelformfields = {}
         if not hasattr(self, 'currentservice') or not self.currentservice:
             self.renderMessage(message='An ML service is required', targetid=wrapperid, btnid='serviceerror')
         if not hasattr(self, 'currentmodel') or not self.currentmodel:
