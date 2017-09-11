@@ -16,23 +16,40 @@
 
 from pixiedust.display.app import *
 from pixiedust.utils import Logger
-from .dialogs import WMLModelDetail, WMLModelDownload, WMLModelPublishForm, WMLModelsList, WMLServices
+from .views import WMLModelDetail, WMLModelDownload, WMLModelForm, WMLModelsList, WMLServices
 
 @PixieApp
 @Logger()
-class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelDownload, WMLModelPublishForm):
+class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLModelDownload):
     def getDialogOptions(self):
         return {
             'title': 'Loading WMLPixieApp'
         }
+    
+    def pdFormUpdate(self, fieldid, fieldvalue):
+        self.debug('WMLServices.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
+        if (fieldid == 'mlservice' + self.getPrefix()):
+            if fieldvalue:
+                selectedservice = [ml for ml in self.ml_services if ml['guid'] == fieldvalue]
+                self.currentservice = selectedservice[0]
+            else:
+                self.currentservice = None
+        elif (fieldid == 'variablename' + self.getPrefix()) or (fieldid == 'modelname' + self.getPrefix()):
+            self.newmodelname = fieldvalue
 
     def pdButtonClicked(self, btnid):
         self.debug('WMLPixieApp.pdButtonClicked: {}'.format(btnid))
-        self.action = btnid
-        if btnid in ['downloadservice', 'publishservice', 'gotomodels', 'modelerror']:
+        if btnid in ['downloadservice', 'publishservice']:
+            self.serviceaction = btnid
             self.view = 'modelslist'
         elif btnid in ['gotoservices', 'serviceerror']:
             self.view = 'mlservices'
+        elif btnid in ['gotomodels', 'modelerror']:
+            self.view = 'modelslist'
+        elif btnid == 'gotodetails':
+            self.view = 'modeldetail'
+        elif btnid == 'gotoform':
+            self.view = 'modelform'
         elif btnid == 'initdownload':
             self.view = 'modeldownload'
 #         elif btnid == 'initpublish':
@@ -48,9 +65,9 @@ class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelDownload, 
     def modelDetailScreen(self):
         return '<div pd_widget="WMLModelDetail" style="height:100%"></div>'
         
-    @route(view="modelpublishform")
-    def publishModelFormScreen(self):
-        return '<div pd_widget="WMLModelPublishForm" style="height:100%"></div>'
+    @route(view="modelform")
+    def modelFormScreen(self):
+        return '<div pd_widget="WMLModelForm" style="height:100%"></div>'
         
     @route(view="modelslist")
     def listModelsScreen(self):
@@ -62,4 +79,5 @@ class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelDownload, 
         
     @route()
     def startScreen(self):
-        self._addHTMLTemplate('dialog.html')
+        self._addHTMLTemplate('appshell.html')
+        # self._addHTMLTemplateString(appshell)

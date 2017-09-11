@@ -33,6 +33,11 @@ class PDForm():
     def pdForm(self):
         # form = [{'id': 'fieldid', 'label': 'fieldname', 'required': True, 'type': 'select', 'options': [('optid', 'optlabel')], 'placeholder': 'select a value', 'value':'default value', 'disabled': False}]
         return """
+<script>
+    function onform{{ prefix }}(input) {
+        $(input).trigger('click')
+    }
+</script>
 {% for formfield in this._pdform %}
     <div class="formField">
         <label for="{{ formfield['id'] }}" class="formLabel">{{ formfield['label'] }}{% if formfield['required'] is defined and formfield['required'] %}<span class="redText">*</span>{% endif %}</label>
@@ -47,10 +52,14 @@ class PDForm():
         </select>
         {% elif formfield['type'] == 'textarea' %}
         <textarea id="{{ formfield['id'] }}" placeholder="{{ formfield['placeholder'] }}"
+            pd_script="self.pdFormUpdate('{{ formfield['id'] }}', '$val({{ formfield['id'] }})')" pd_norefresh
+            onchange="onform{{ prefix }}(this)"
             {% if formfield['required'] is defined and formfield['required'] %}required{% endif %}
             {% if formfield['disabled'] is defined and formfield['disabled'] %}disabled="disabled"{% endif %}></textarea>
         {% else %}
         <input id="{{ formfield['id'] }}" value="{{ formfield['value'] }}" type="{{ formfield['type'] }}" placeholder="{{ formfield['placeholder'] }}"
+            pd_script="self.pdFormUpdate('{{ formfield['id'] }}', '$val({{ formfield['id'] }})')" pd_norefresh
+            onchange="onform{{ prefix }}(this)"
             {% if formfield['required'] is defined and formfield['required'] %}required{% endif %}
             {% if formfield['disabled'] is defined and formfield['disabled'] %}disabled="disabled"{% endif %}>
         {% endif %}

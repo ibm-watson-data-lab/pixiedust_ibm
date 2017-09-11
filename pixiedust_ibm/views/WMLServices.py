@@ -29,12 +29,6 @@ class WMLServices(PDButton, PDForm, WMLMessage):
     
     def pdFormUpdate(self, fieldid, fieldvalue):
         self.debug('WMLServices.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
-        if (fieldid == 'mlservice' + self.getPrefix()):
-            if fieldvalue:
-                selectedservice = [ml for ml in self.ml_services if ml['guid'] == fieldvalue]
-                self.currentservice = selectedservice[0]
-            else:
-                self.currentservice = None
     
     @route(widget="WMLServices")
     def wmlServices(self):
@@ -43,7 +37,7 @@ class WMLServices(PDButton, PDForm, WMLMessage):
         
         if not hasattr(self, 'ml_services') or not self.ml_services:
             entity = self.getPixieAppEntity()
-            self.action = None
+            self.serviceaction = None
             message = None
             if entity is not None and 'project_id' in entity and 'access_token' in entity:
                 message = self.initProjectLib(entity)

@@ -53,7 +53,7 @@ self._pdbutton['targetid']='{}'
     </div>
     <div pd_widget="pdButton">
         <pd_script>
-self._pdbutton['btnid']='initdownload'
+self._pdbutton['btnid']='gotoform'
 self._pdbutton['label']='Download this Model'
 self._pdbutton['classes']='btn btn-default btn-primary btn-download'
 self._pdbutton['targetid']='{}'

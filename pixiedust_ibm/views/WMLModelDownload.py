@@ -27,8 +27,9 @@ class WMLModelDownload(WMLMessage):
         if not hasattr(self, 'currentmodel') or not self.currentmodel:
             self.renderMessage(message='A Model is required', targetid=wrapperid, btnid='modelerror')
         else:
-            ShellAccess["mlModel"] = self.currentmodel.model_instance()
+            newname = self.newmodelname if self.newmodelname else 'mlModel'
+            ShellAccess[newname] = self.currentmodel.model_instance()
             title = 'Download model <code>' + self.currentmodel.name + '</code>'
-            message = 'Model successfully downloaded and stored in variable <code>mlModel</code>.'
+            message = 'Model successfully downloaded and stored in variable <code>{}</code>.'.format(newname)
             
             self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotomodels')

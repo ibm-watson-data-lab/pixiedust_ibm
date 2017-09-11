@@ -32,10 +32,8 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
     def pdActionClicked(self, action, rowid):
         self.debug('pdActionClicked: {}, {}'.format(action, rowid))
         self.currentmodel = self.ml_repository_client.models.get(rowid)
-        if action == 'Publish':
-            self.view = 'modelpublishform'
-        elif action == 'Download':
-            self.view = 'modeldownload'
+        if action == 'Publish' or action == 'Download':
+            self.view = 'modelform'
         elif action == 'Detail':
             self.view = 'modeldetail'
     
@@ -48,11 +46,11 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
             PDButton.__init__(self)
             actions = []
             rows = []
-            if self.action == 'publishservice':
+            if self.serviceaction == 'publishservice':
                 self.initWatsonML(self.currentservice['credentials'])
                 # TODO: get notebook models
                 models = []
-                # models = self.ml_repository_client.models.all()
+#                 models = self.ml_repository_client.models.all()
                 actions = [{
                     'name': 'Publish',
                     'targetid': wrapperid
@@ -81,7 +79,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
                 'actions': actions
             }
             template = """
-<div class="pd_title">Models in <strong>{% if action == 'downloadservice' %}{{ service['name'] }}{% else %}notebook{% endif %}</strong></div>
+<div class="pd_title">Models in <strong>{{ service }}</strong></div>
 <div class="pd_main pd_listmodel">
     <div pd_widget="pdTable"></div>
 </div>
@@ -97,4 +95,4 @@ self._pdbutton['targetid']='pd_app{{ prefix }}'
     </div>
 </div>
 """ 
-            self._addHTMLTemplateString(template, service=self.currentservice, action=self.action)
+            self._addHTMLTemplateString(template, service='notebook' if self.serviceaction == 'publishservice' else self.currentservice['name'])
