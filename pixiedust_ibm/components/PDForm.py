@@ -45,9 +45,9 @@ class PDForm():
         <select id="{{ formfield['id'] }}" pd_script="self.pdFormUpdate('{{ formfield['id'] }}', '$val({{ formfield['id'] }})')" pd_norefresh
             {% if formfield['required'] is defined and formfield['required'] %}required{% endif %}
             {% if formfield['disabled'] is defined and formfield['disabled'] %}disabled="disabled"{% endif %}>
-            <option selected="selected" disabled>{{ formfield['placeholder'] }}</option>
+            <option {% if formfield['selected'] is not defined %}selected="selected"{% endif %} disabled>{{ formfield['placeholder'] }}</option>
             {% for option in formfield['options'] %}
-            <option value="{{ option[0] }}">{{ option[1] }}</option>
+            <option {% if formfield['selected'] is defined and formfield['selected'] == option[0] %}selected="selected"{% endif %} value="{{ option[0] }}" >{{ option[1] }}</option>
             {% endfor %}
         </select>
         {% elif formfield['type'] == 'textarea' %}

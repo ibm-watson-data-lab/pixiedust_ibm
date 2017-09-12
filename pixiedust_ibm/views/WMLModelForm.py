@@ -72,7 +72,7 @@ class WMLModelForm(PDButton, WMLMessage):
         wrapperid = 'pd_app' + self.getPrefix()
         self.modelformfields = {}
         if not hasattr(self, 'currentservice') or not self.currentservice:
-            self.renderMessage(message='An ML service is required', targetid=wrapperid, btnid='serviceerror')
+            self.renderMessage(message='A machine learning service is required', targetid=wrapperid, btnid='serviceerror')
         if not hasattr(self, 'currentmodel') or not self.currentmodel:
             self.renderMessage(message='A Model is required', targetid=wrapperid, btnid='modelerror')
         else:

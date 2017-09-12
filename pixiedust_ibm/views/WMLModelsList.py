@@ -52,7 +52,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
     def wmlModelsList(self):
         wrapperid = 'pd_app' + self.getPrefix()
         if not hasattr(self, 'currentservice') or not self.currentservice:
-            self.renderMessage(message='An ML service is required', targetid=wrapperid, btnid='serviceerror')
+            self.renderMessage(message='A machine learning service is required', targetid=wrapperid, btnid='serviceerror')
         else:
             PDButton.__init__(self)
             actions = []

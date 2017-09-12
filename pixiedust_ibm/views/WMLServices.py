@@ -28,7 +28,8 @@ class WMLServices(PDButton, PDForm, WMLMessage):
     @route(widget="WMLServices")
     def wmlServices(self):
         message = None
-        self.currentservice = None
+        if not hasattr(self, 'currentservice'):
+            self.currentservice = None
         
         if not hasattr(self, 'ml_services') or not self.ml_services:
             entity = self.getPixieAppEntity()
@@ -46,7 +47,7 @@ class WMLServices(PDButton, PDForm, WMLMessage):
             PDButton.__init__(self)
             PDForm.__init__(self)
             return """
-<div class="pd_title">Select an ML service to work with</strong></div>
+<div class="pd_title">Select a machine learning service to work with</div>
 <div class="pd_main pd_mlservices">
     <div pd_widget="pdForm">
         <pd_script>
@@ -56,6 +57,7 @@ self._pdform = [{
     'label': 'Machine Learning Service',
     'required': True,
     'options': [(service['guid'], service['name']) for service in self.ml_services],
+{% if this.currentservice is defined and this.currentservice['guid'] is defined %}'selected': self.currentservice['guid'],{% endif %}
     'placeholder': 'Select a service'
 }]
         </pd_script>
@@ -80,6 +82,5 @@ self._pdbutton['targetid']='pd_app' + self.getPrefix()
 {% if this.ml_services|length == 0 %}self._pdbutton['attributes']='disabled="disabled"'{% endif %}
         </pd_scipt>
     </div>
-    <pd_
 </div>
 """
