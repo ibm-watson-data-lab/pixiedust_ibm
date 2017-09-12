@@ -37,4 +37,4 @@ class WMLModelDownload(WMLMessage):
             title = 'Download model <code>' + self.currentmodel.name + '</code>'
             message = 'Model successfully downloaded and stored in variable <code>{}</code>.'.format(newname)
             
-            self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotomodels')
+            self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotoservices')

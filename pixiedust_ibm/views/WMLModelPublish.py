@@ -15,6 +15,7 @@
 # -------------------------------------------------------------------------------
 
 from pixiedust.display.app import route
+from pixiedust.utils.shellAccess import ShellAccess
 from pixiedust.utils import Logger
 from . import WMLMessage
 
@@ -28,17 +29,29 @@ class WMLModelPublish(WMLMessage):
         if not hasattr(self, 'modelformfields'):
             self.renderMessage(message='Missing required fields', targetid=wrapperid, btnid='modelerror')
         else:
+            from repository.mlrepositoryartifact import MLRepositoryArtifact
             self.debug('WMLModelPublish.modelformfields: ' + str(self.modelformfields))
-            modelnamefield = 'modelname' + self.getPrefix()
-            modeldescfield = 'modeldesc' + self.getPrefix()
-            newname = self.modelformfields[modelnamefield] if modelnamefield in self.modelformfields and self.modelformfields[modelnamefield] else 'mlModel'
-            newdesc = self.modelformfields[modeldescfield] if modeldescfield in self.modelformfields and self.modelformfields[modeldescfield] else ''
+            message = None
 
-            title = 'Publish model <code>' + self.currentmodel.name + '</code>'
+            try:
+                self.ml_repository_client = WMLUtil.getMLRepositoryClient(self.currentservice['credentials'])
+                modelnamefield = 'modelname' + self.getPrefix()
+                modeldescfield = 'modeldesc' + self.getPrefix()
+                newname = self.modelformfields[modelnamefield] if modelnamefield in self.modelformfields and self.modelformfields[modelnamefield] else 'mlModel'
+                newdesc = self.modelformfields[modeldescfield] if modeldescfield in self.modelformfields and self.modelformfields[modeldescfield] else ''
 
-            # TODO: publish model
+                title = 'Publish model <code>' + self.currentmodel.name + '</code>'
+                message = 'Model successfully published as <code>{}</code>.'.format(newname)
+                model = ShellAccess[self.currentmodel.name]
 
-            # message = 'Model successfully published as <code>{}</code>.'.format(newname)
-            message = 'NOT YET IMPLEMENTED'
-            
-            self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotomodels')
+                if len(newdesc):
+                    from repository.mlrepository import MetaNames, MetaProps
+                    artifact = MLRepositoryArtifact(model, name=newname, meta_props=MetaProps({ MetaNames.DESCRIPTION: newdesc }))
+                else:
+                    artifact = MLRepositoryArtifact(model, name=newname)
+
+                self.ml_repository_client.models.save(artifact)
+
+                self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotoservices')
+            except Exception as e:
+                self.renderMessage(message=str(e))

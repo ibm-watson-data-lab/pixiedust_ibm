@@ -92,7 +92,7 @@ class WMLModelForm(PDButton, WMLMessage):
                     title = 'Publish model <code>{}</code> to <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
                     btnid = 'initpublish'
                     btnlabel = 'Publish'
-                    btnattr = 'disabled="disabled"'
+                    btnattr = ''
                 else:
                     self._pdform = self.downloadForm()
                     title = 'Download model <code>{}</code> from <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])

@@ -28,3 +28,7 @@ class WMLUtil:
             ml_repository_client = MLRepositoryClient(credentials['url'])
             ml_repository_client.authorize(credentials['username'], credentials['password'])
         return ml_repository_client
+    
+    @staticmethod
+    def fqName(entity):
+        return (entity.__module__ + '.' if hasattr(entity, '__module__') else '') + (entity.__class__.__name__ if hasattr(entity, '__class__') else '')

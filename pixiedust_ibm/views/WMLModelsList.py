@@ -15,6 +15,7 @@
 # -------------------------------------------------------------------------------
 
 from pixiedust.display.app import route
+from pixiedust.utils.shellAccess import ShellAccess
 from pixiedust.utils import Logger
 from ..components import PDButton, PDTable
 from . import WMLMessage
@@ -22,16 +23,25 @@ from ..WMLUtil import WMLUtil
 
 @Logger()
 class WMLModelsList(PDButton, PDTable, WMLMessage):
-    def initWatsonML(self, credentials):
-        if credentials is None:
-            return "You must provide credentials to your Watson ML Service"
-        self.ml_repository_client = MLRepositoryClient(credentials['url'])
-        self.ml_repository_client.authorize(credentials['username'], credentials['password'])
+    @property
+    def supportedModels(self):
+        return ['pyspark.ml.Pipeline', 'pyspark.ml.PipelineModel', 'sklearn.pipeline.Pipeline', 'scikit.learn.Pipeline']
 
+    def getNotebookModels(self):
+        from repository.mlrepositoryartifact import MLRepositoryArtifact
+        allmodels = [MLRepositoryArtifact(ShellAccess[m], name=m) for m in ShellAccess if not m.startswith('_') and WMLUtil.fqName(ShellAccess[m]) in self.supportedModels]
+        self.debug('getNotebookModels: found {} models'.format(len(allmodels)))
+        return allmodels
+
+    def getNotebookModel(self, name):
+        return MLRepositoryArtifact(ShellAccess[name], name=name) if name in ShellAccess else None
     
     def pdActionClicked(self, action, rowid):
         self.debug('pdActionClicked: {}, {}'.format(action, rowid))
-        self.currentmodel = self.ml_repository_client.models.get(rowid)
+        if self.serviceaction == 'publishservice':
+            self.currentmodel = self.getNotebookModel(rowid)
+        else:
+            self.currentmodel = self.ml_repository_client.models.get(rowid)
         if action == 'Publish' or action == 'Download':
             self.view = 'modelform'
         elif action == 'Detail':
@@ -57,9 +67,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
                 self.renderMessage(message=message)
             else:
                 if self.serviceaction == 'publishservice':
-                    # TODO: get notebook models
-                    models = []
-    #                 models = self.ml_repository_client.models.all()
+                    models = self.getNotebookModels()
                     actions = [{
                         'name': 'Publish',
                         'targetid': wrapperid
@@ -76,7 +84,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
 
                 for model in models:
                     rows.append({
-                        'id': model.uid,
+                        'id': model.uid if model.uid is not None else model.name,
                         'name': model.name,
                         'type': model.meta.prop('modelType')
                     })
