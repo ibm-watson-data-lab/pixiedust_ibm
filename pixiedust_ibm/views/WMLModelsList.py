@@ -16,10 +16,9 @@
 
 from pixiedust.display.app import route
 from pixiedust.utils import Logger
-from repository.mlrepositoryclient import MLRepositoryClient
-from repository.mlrepositoryartifact import MLRepositoryArtifact
 from ..components import PDButton, PDTable
 from . import WMLMessage
+from ..WMLUtil import WMLUtil
 
 @Logger()
 class WMLModelsList(PDButton, PDTable, WMLMessage):
@@ -28,6 +27,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
             return "You must provide credentials to your Watson ML Service"
         self.ml_repository_client = MLRepositoryClient(credentials['url'])
         self.ml_repository_client.authorize(credentials['username'], credentials['password'])
+
     
     def pdActionClicked(self, action, rowid):
         self.debug('pdActionClicked: {}, {}'.format(action, rowid))
@@ -46,39 +46,47 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
             PDButton.__init__(self)
             actions = []
             rows = []
-            if self.serviceaction == 'publishservice':
-                self.initWatsonML(self.currentservice['credentials'])
-                # TODO: get notebook models
-                models = []
-#                 models = self.ml_repository_client.models.all()
-                actions = [{
-                    'name': 'Publish',
-                    'targetid': wrapperid
-                }]
-            else:
-                self.initWatsonML(self.currentservice['credentials'])
-                models = self.ml_repository_client.models.all()
-                actions = [{
-                    'name': 'Detail',
-                    'targetid': wrapperid
-                }, {
-                    'name': 'Download',
-                    'targetid': wrapperid
-                }]
+            message = None
 
-            for model in models:
-                rows.append({
-                    'id': model.uid,
-                    'name': model.name,
-                    'type': model.meta.prop('modelType')
-                })
+            try:
+                self.ml_repository_client = WMLUtil.getMLRepositoryClient(self.currentservice['credentials'])
+            except Exception as e:
+                message = str(e)
             
-            self._pdtable = {
-                'columns': ['name', 'status', 'type'],
-                'rows': rows,
-                'actions': actions
-            }
-            template = """
+            if message is not None:
+                self.renderMessage(message=message)
+            else:
+                if self.serviceaction == 'publishservice':
+                    # TODO: get notebook models
+                    models = []
+    #                 models = self.ml_repository_client.models.all()
+                    actions = [{
+                        'name': 'Publish',
+                        'targetid': wrapperid
+                    }]
+                else:
+                    models = self.ml_repository_client.models.all()
+                    actions = [{
+                        'name': 'Detail',
+                        'targetid': wrapperid
+                    }, {
+                        'name': 'Download',
+                        'targetid': wrapperid
+                    }]
+
+                for model in models:
+                    rows.append({
+                        'id': model.uid,
+                        'name': model.name,
+                        'type': model.meta.prop('modelType')
+                    })
+                
+                self._pdtable = {
+                    'columns': ['name', 'status', 'type'],
+                    'rows': rows,
+                    'actions': actions
+                }
+                template = """
 <div class="pd_title">Models in <strong>{{ service }}</strong></div>
 <div class="pd_main pd_listmodel">
     <div pd_widget="pdTable"></div>
@@ -94,5 +102,5 @@ self._pdbutton['targetid']='pd_app{{ prefix }}'
         </pd_scipt>
     </div>
 </div>
-""" 
-            self._addHTMLTemplateString(template, service='notebook' if self.serviceaction == 'publishservice' else self.currentservice['name'])
+"""
+                self._addHTMLTemplateString(template, service='notebook' if self.serviceaction == 'publishservice' else self.currentservice['name'])

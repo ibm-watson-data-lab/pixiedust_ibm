@@ -14,4 +14,5 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-from .WMLModel import WMLModel, downloadWMLModel, publishWMLModel
+from .WMLModel import WMLModel, downloadWMLModel, publishWMLModel, listWMLModels
+from . import WMLUtil

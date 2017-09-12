@@ -18,6 +18,7 @@ from pixiedust.display.app import route
 from pixiedust.utils import Logger
 from ..components import PDButton
 from . import WMLMessage
+from ..WMLUtil import WMLUtil
 
 @Logger()
 class WMLModelForm(PDButton, WMLMessage):
@@ -76,22 +77,30 @@ class WMLModelForm(PDButton, WMLMessage):
             self.renderMessage(message='A Model is required', targetid=wrapperid, btnid='modelerror')
         else:
             PDButton.__init__(self)
-            self.initWatsonML(self.currentservice['credentials'])
-            
-            if self.serviceaction == 'publishservice':
-                self._pdform = self.publishForm()
-                title = 'Publish model <code>{}</code> to <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
-                btnid = 'initpublish'
-                btnlabel = 'Publish'
-                btnattr = 'disabled="disabled"'
-            else:
-                self._pdform = self.downloadForm()
-                title = 'Download model <code>{}</code> from <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
-                btnid = 'initdownload'
-                btnlabel = 'Download'
-                btnattr = ''
+            message = None
 
-            return """
+            try:
+                self.ml_repository_client = WMLUtil.getMLRepositoryClient(self.currentservice['credentials'])
+            except Exception as e:
+                message = str(e)
+            
+            if message is not None:
+                self.renderMessage(message=message)
+            else:
+                if self.serviceaction == 'publishservice':
+                    self._pdform = self.publishForm()
+                    title = 'Publish model <code>{}</code> to <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
+                    btnid = 'initpublish'
+                    btnlabel = 'Publish'
+                    btnattr = 'disabled="disabled"'
+                else:
+                    self._pdform = self.downloadForm()
+                    title = 'Download model <code>{}</code> from <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
+                    btnid = 'initdownload'
+                    btnlabel = 'Download'
+                    btnattr = ''
+
+                return """
 <div class="pd_title">{title}</div>
 <div class="pd_main pd_modelform">
     <div pd_widget="pdForm"></div>

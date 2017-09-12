@@ -16,17 +16,12 @@
 
 from pixiedust.display.app import route
 from pixiedust.utils import Logger
-from project_lib import Project
 from ..components import PDButton, PDForm
 from . import WMLMessage
+from ..WMLUtil import WMLUtil
 
 @Logger()
 class WMLServices(PDButton, PDForm, WMLMessage):
-    def initProjectLib(self, credentials):
-        currentproject = Project(None, project_id=credentials['project_id'], project_access_token=credentials['access_token'])
-        compute_entities = currentproject.get_metadata()['entity']['compute']
-        self.ml_services = [entity for entity in compute_entities if entity['type'] == 'machine_learning']
-    
     def pdFormUpdate(self, fieldid, fieldvalue):
         self.debug('WMLServices.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
     
@@ -39,10 +34,11 @@ class WMLServices(PDButton, PDForm, WMLMessage):
             entity = self.getPixieAppEntity()
             self.serviceaction = None
             message = None
-            if entity is not None and 'project_id' in entity and 'access_token' in entity:
-                message = self.initProjectLib(entity)
-            else:
-                message = 'You must provide credentials to your Project ("project_id", "access_token")'
+
+            try:
+                self.ml_services = WMLUtil.getMLServices(entity)
+            except Exception as e:
+                message = str(e)
 
         if message is not None:
             self.renderMessage(message=message)
