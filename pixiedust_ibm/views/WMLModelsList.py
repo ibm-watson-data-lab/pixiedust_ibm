@@ -34,6 +34,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
         return allmodels
 
     def getNotebookModel(self, name):
+        from repository.mlrepositoryartifact import MLRepositoryArtifact
         return MLRepositoryArtifact(ShellAccess[name], name=name) if name in ShellAccess else None
     
     def pdActionClicked(self, action, rowid):
@@ -104,7 +105,7 @@ class WMLModelsList(PDButton, PDTable, WMLMessage):
     <div pd_widget="pdButton">
         <pd_script>
 self._pdbutton['btnid']='gotoservices'
-self._pdbutton['label']='Start Over'
+self._pdbutton['label']='Back'
 self._pdbutton['classes']='btn btn-default btn-primary btn-back'
 self._pdbutton['targetid']='pd_app{{ prefix }}'
         </pd_scipt>
