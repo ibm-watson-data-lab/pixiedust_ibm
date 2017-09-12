@@ -18,6 +18,7 @@ from pixiedust.display.app import route
 from pixiedust.utils.shellAccess import ShellAccess
 from pixiedust.utils import Logger
 from . import WMLMessage
+from ..WMLUtil import WMLUtil
 
 @Logger()
 class WMLModelPublish(WMLMessage):
