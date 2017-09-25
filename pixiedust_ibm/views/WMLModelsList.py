@@ -22,7 +22,7 @@ from . import WMLMessage
 from ..WMLUtil import WMLUtil
 
 @Logger()
-class WMLModelsList(PDButton, PDTable, WMLMessage):
+class WMLModelsList(PDTable, WMLMessage):
     @property
     def supportedModels(self):
         return ['pyspark.ml.Pipeline', 'pyspark.ml.PipelineModel', 'sklearn.pipeline.Pipeline', 'scikit.learn.Pipeline']

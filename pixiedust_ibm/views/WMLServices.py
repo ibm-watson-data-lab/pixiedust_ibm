@@ -21,7 +21,7 @@ from . import WMLMessage
 from ..WMLUtil import WMLUtil
 
 @Logger()
-class WMLServices(PDButton, PDForm, WMLMessage):
+class WMLServices(PDForm, WMLMessage):
     def pdFormUpdate(self, fieldid, fieldvalue):
         self.debug('WMLServices.pdFormUpdate: {}, {}'.format(fieldid, fieldvalue))
     

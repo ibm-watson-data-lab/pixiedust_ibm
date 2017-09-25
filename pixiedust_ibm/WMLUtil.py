@@ -1,3 +1,21 @@
+# -------------------------------------------------------------------------------
+# Copyright IBM Corp. 2017
+# 
+# Licensed under the Apache License, Version 2.0 (the 'License');
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an 'AS IS' BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# -------------------------------------------------------------------------------
+from repository.mlrepositoryclient import MLRepositoryClient
+from project_lib import Project
+
 class WMLUtil:
 
     @staticmethod
@@ -13,7 +31,6 @@ class WMLUtil:
 
     @staticmethod
     def getMLServices(credentials):
-        from project_lib import Project
         proj_credentials = WMLUtil.checkCredentials(credentials)
         currentproject = Project(None, project_id = proj_credentials['project_id'], project_access_token = proj_credentials['access_token'])
         compute_entities = currentproject.get_metadata()['entity']['compute']
@@ -24,7 +41,6 @@ class WMLUtil:
     def getMLRepositoryClient(credentials):
         ml_repository_client = None
         if credentials is not None:
-            from repository.mlrepositoryclient import MLRepositoryClient
             ml_repository_client = MLRepositoryClient(credentials['url'])
             ml_repository_client.authorize(credentials['username'], credentials['password'])
         return ml_repository_client

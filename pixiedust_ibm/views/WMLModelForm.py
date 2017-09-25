@@ -21,7 +21,7 @@ from . import WMLMessage
 from ..WMLUtil import WMLUtil
 
 @Logger()
-class WMLModelForm(PDButton, WMLMessage):
+class WMLModelForm(WMLMessage):
     def publishForm(self):
         return [{
                 'type': 'text',

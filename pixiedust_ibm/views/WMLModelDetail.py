@@ -20,7 +20,7 @@ from ..components import PDButton
 from . import WMLMessage
 
 @Logger()
-class WMLModelDetail(PDButton, WMLMessage):
+class WMLModelDetail(WMLMessage):
     @route(widget="WMLModelDetail")
     def wmlModelDetail(self):
         wrapperid = 'pd_app' + self.getPrefix()
