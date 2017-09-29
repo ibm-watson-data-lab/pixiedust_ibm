@@ -44,9 +44,9 @@ class WMLModelsList(PDTable, WMLMessage):
         else:
             self.currentmodel = self.ml_repository_client.models.get(rowid)
         if action == 'Publish' or action == 'Download':
-            self.view = 'modelform'
+            self.view = 'WMLModelForm'
         elif action == 'Detail':
-            self.view = 'modeldetail'
+            self.view = 'WMLModelDetail'
     
     @route(widget="WMLModelsList")
     def wmlModelsList(self):

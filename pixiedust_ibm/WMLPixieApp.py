@@ -41,45 +41,24 @@ class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLM
         self.debug('WMLPixieApp.pdButtonClicked: {}'.format(btnid))
         if btnid in ['downloadservice', 'publishservice']:
             self.serviceaction = btnid
-            self.view = 'modelslist'
+            self.view = 'WMLModelsList'
         elif btnid in ['gotoservices', 'serviceerror']:
-            self.view = 'mlservices'
+            self.view = 'WMLServices'
         elif btnid in ['gotomodels', 'modelerror']:
-            self.view = 'modelslist'
+            self.view = 'WMLModelsList'
         elif btnid == 'gotodetails':
-            self.view = 'modeldetail'
+            self.view = 'WMLModelDetail'
         elif btnid == 'gotoform':
-            self.view = 'modelform'
+            self.view = 'WMLModelForm'
         elif btnid == 'initdownload':
-            self.view = 'modeldownload'
+            self.view = 'WMLModelDownload'
         elif btnid == 'initpublish':
-            self.view = 'modelpublish'
+            self.view = 'WMLModelPublish'
             pass
 
-
-    @route(view="modelpublish")
-    def modelPublishView(self):
-        return '<div pd_widget="WMLModelPublish" style="height:100%"></div>'
-    
-    @route(view="modeldownload")
-    def modelDownloadView(self):
-        return '<div pd_widget="WMLModelDownload" style="height:100%"></div>'
-        
-    @route(view="modeldetail")
-    def modelDetailView(self):
-        return '<div pd_widget="WMLModelDetail" style="height:100%"></div>'
-        
-    @route(view="modelform")
-    def modelFormView(self):
-        return '<div pd_widget="WMLModelForm" style="height:100%"></div>'
-        
-    @route(view="modelslist")
-    def listModelsView(self):
-        return '<div pd_widget="WMLModelsList" style="height:100%"></div>'
-        
-    @route(view="mlservices")
-    def mlServicesView(self):
-        return '<div pd_widget="WMLServices" style="height:100%"></div>'
+    @route(view="*")
+    def modelPublishView(self, view):
+        return '<div pd_widget="{{view}}" style="height:100%"></div>'
         
     @route()
     def appshellView(self):
