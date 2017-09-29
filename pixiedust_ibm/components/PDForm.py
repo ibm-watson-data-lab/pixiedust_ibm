@@ -35,7 +35,11 @@ class PDForm():
         return """
 <script>
     function onform{{ prefix }}(input) {
-        $(input).trigger('click')
+        if (input.tagName === 'SELECT') {
+            $(input).find('> option:selected').trigger('click')
+        } else {
+            $(input).trigger('click')
+        }
     }
 </script>
 {% for formfield in this._pdform %}
@@ -43,6 +47,7 @@ class PDForm():
         <label for="{{ formfield['id'] }}" class="formLabel">{{ formfield['label'] }}{% if formfield['required'] is defined and formfield['required'] %}<span class="redText">*</span>{% endif %}</label>
         {% if formfield['type'] == 'select' %}
         <select id="{{ formfield['id'] }}" pd_script="self.pdFormUpdate('{{ formfield['id'] }}', '$val({{ formfield['id'] }})')" pd_norefresh
+            onchange="onform{{ prefix }}(this)"
             {% if formfield['required'] is defined and formfield['required'] %}required{% endif %}
             {% if formfield['disabled'] is defined and formfield['disabled'] %}disabled="disabled"{% endif %}>
             <option {% if formfield['selected'] is not defined %}selected="selected"{% endif %} disabled>{{ formfield['placeholder'] }}</option>
