@@ -23,7 +23,8 @@ from .views import WMLModelDetail, WMLModelDownload, WMLModelPublish, WMLModelFo
 class WMLPixieApp(WMLServices, WMLModelsList, WMLModelDetail, WMLModelForm, WMLModelDownload, WMLModelPublish):
     def getDialogOptions(self):
         return {
-            'title': 'Loading WMLPixieApp'
+            'title': 'Loading WMLPixieApp',
+            'hideHeader': 'true'
         }
     
     def pdFormUpdate(self, fieldid, fieldvalue):

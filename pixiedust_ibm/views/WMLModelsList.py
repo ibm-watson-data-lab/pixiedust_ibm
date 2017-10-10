@@ -96,7 +96,7 @@ class WMLModelsList(PDTable, WMLMessage):
                     'actions': actions
                 }
                 template = """
-<div class="pd_title">Models in <strong>{{ service }}</strong></div>
+<div class="pd_title">Models in {{ service }}</div>
 <div class="pd_main pd_listmodel">
     <div pd_widget="pdTable"></div>
 </div>
@@ -108,7 +108,7 @@ self._pdbutton['btnid']='gotoservices'
 self._pdbutton['label']='Back'
 self._pdbutton['classes']='btn btn-default btn-primary btn-back'
 self._pdbutton['targetid']='pd_app{{ prefix }}'
-        </pd_scipt>
+        </pd_script>
     </div>
 </div>
 """

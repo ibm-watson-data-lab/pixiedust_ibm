@@ -89,13 +89,13 @@ class WMLModelForm(WMLMessage):
             else:
                 if self.serviceaction == 'publishservice':
                     self._pdform = self.publishForm()
-                    title = 'Publish model <code>{}</code> to <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
+                    title = 'Publish model {} to {}'.format(self.currentmodel.name, self.currentservice['name'])
                     btnid = 'initpublish'
                     btnlabel = 'Publish'
                     btnattr = ''
                 else:
                     self._pdform = self.downloadForm()
-                    title = 'Download model <code>{}</code> from <strong>{}</strong>'.format(self.currentmodel.name, self.currentservice['name'])
+                    title = 'Download model {} from {}'.format(self.currentmodel.name, self.currentservice['name'])
                     btnid = 'initdownload'
                     btnlabel = 'Download'
                     btnattr = ''
@@ -112,7 +112,7 @@ self._pdbutton['btnid']='gotomodels'
 self._pdbutton['label']='Return to Models'
 self._pdbutton['classes']='btn btn-default btn-primary btn-back'
 self._pdbutton['targetid']='{target}'
-        </pd_scipt>
+        </pd_script>
     </div>
     <div pd_widget="pdButton">
         <pd_script>
@@ -121,7 +121,7 @@ self._pdbutton['label']='{label}'
 self._pdbutton['classes']='btn btn-default btn-primary btn-ok'
 self._pdbutton['targetid']='{target}'
 self._pdbutton['attributes']='{attr}'
-        </pd_scipt>
+        </pd_script>
     </div>
 </div>
 """.format(title=title, target=wrapperid, btnid=btnid, label=btnlabel, attr=btnattr)

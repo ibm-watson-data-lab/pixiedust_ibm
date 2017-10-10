@@ -2,6 +2,9 @@
 .pixiedust-app .expandButton {
     display: none;
 }
+.pixiedust-app .modal-dialog {
+    width: 800px !important;
+}
 .pixiedust-app .modal-header {
     display: none;
 }
@@ -26,19 +29,21 @@
 .watson-ml-app .pd_dismiss {
     cursor: pointer;
     position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 20px;
-    color: #959BA0;
+    right: -25px;
+    top: -10px;
     z-index: 100;
 }
 .watson-ml-app .pd_title {
-    font-size: 24px;
-    margin: 0 0 20px 0;
+    font-size: 41px;
+    margin: 0 0 24px 0;
 }
 .watson-ml-app .pd_main {
-    height: calc(100% - 125px);
     overflow: auto;
+    position: absolute;
+    top: 115px;
+    bottom: 85px;
+    left: 0;
+    right: 0;
 }
 .watson-ml-app table {
     border-collapse: collapse;
@@ -92,23 +97,6 @@
     bottom: 20px;
     right: 0;
 }
-.watson-ml-app .pd_mlservices {
-    height: 200px;
-}
-.watson-ml-app .pd_mlservices + .pd_buttons {
-    position: relative;
-    text-align: center;
-}
-.watson-ml-app .pd_mlservices + .pd_buttons button {
-    font-size: 2em;
-    padding: 1em;
-}
-.watson-ml-app .pd_mlservices + .pd_buttons > div:first-child {
-    margin-right: 25px;
-}
-.watson-ml-app .pd_mlservices + .pd_buttons > div:last-child {
-    margin-left: 25px;
-}
 .watson-ml-app [pd_widget="pdButton"] {
     display: inline-block;
 }
@@ -136,13 +124,12 @@
     color: #1d3649;
     width: 100%;
     padding: .75rem;
-    font-size: 0.875rem;
     font-weight: 400;
     box-sizing: border-box;
     margin: 0;
-    max-height: 11em;
+    max-height: 15em;
+    min-height: 10em;
     resize: none;
-    padding: .75em;
 }
 .watson-ml-app select {
     margin: 0;
@@ -165,30 +152,46 @@
     text-decoration: none;
 }
 .watson-ml-app .dropdown-menu {
-    background-color: #264A60;
+    background-color: #F9F9FB;
     top: 75%;
 }
 .watson-ml-app .dropdown-menu li:hover {
-    background-color: #152935;
+    background-color: #A6266E;
 }
 .watson-ml-app .dropdown-menu li a {
     background-color: transparent;
-    color: #ffffff;
+    color: #152935;
     font-weight: 300;
 }
 .watson-ml-app .dropdown-menu li a:hover {
     text-decoration: none;
+    color: #FFFFFF;
 }
 .watson-ml-app .dropdown-menu li:hover a {
     background-color: transparent;
-    color: #00b4a0;
+    color: #FFFFFF;
 }
 .watson-ml-app .redText {
     color: red;
 }
 </style>
 <div class="watson-ml-app" pixiedust="{{ pd_controls|htmlAttribute }}">
-    <i class="fa fa-times pd_dismiss" aria-hidden="true" data-dismiss="modal"></i>
+    <span class="pd_dismiss" aria-hidden="true"  data-dismiss="modal">
+        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>close</title>
+            <defs></defs>
+            <g id="Mid-Fi-WIreframes-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Active-Policy" transform="translate(-1411.000000, -62.000000)" fill="#A6266E">
+                    <g id="Group-18" transform="translate(0.000000, 50.000000)">
+                        <g id="close" transform="translate(1411.000000, 12.000000)">
+                            <polygon id="Fill-1" points="15.6797143 7.10828571 12 10.788 8.32028571 7.10828571 7.10828571 8.32028571 10.788 12 7.10828571 15.6797143 8.32028571 16.8917143 12 13.212 15.6797143 16.8917143 16.8917143 15.6797143 13.212 12 16.8917143 8.32028571"></polygon>
+                            <path d="M12,22.2857143 C6.32828571,22.2857143 1.71428571,17.6717143 1.71428571,12 C1.71428571,6.32828571 6.32828571,1.71428571 12,1.71428571 C17.6717143,1.71428571 22.2857143,6.32828571 22.2857143,12 C22.2857143,17.6717143 17.6717143,22.2857143 12,22.2857143 M12,0 C5.37342857,0 0,5.37342857 0,12 C0,18.6265714 5.37342857,24 12,24 C18.6265714,24 24,18.6265714 24,12 C24,5.37342857 18.6265714,0 12,0" id="Fill-2"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </span>
     <div class="pd_wrapper" id="pd_app{{ prefix }}">
     <div pd_widget="WMLServices"></div>
     </div>

@@ -34,7 +34,7 @@ class WMLModelDownload(WMLMessage):
             newname = self.modelformfields[modelnamefield] if modelnamefield in self.modelformfields and self.modelformfields[modelnamefield] else 'mlModel'
             
             ShellAccess[newname] = self.currentmodel.model_instance()
-            title = 'Download model <code>' + self.currentmodel.name + '</code>'
-            message = 'Model successfully downloaded and stored in variable <code>{}</code>.'.format(newname)
+            title = 'Download model: ' + self.currentmodel.name
+            message = 'Model successfully downloaded and stored in variable: {}'.format(newname)
             
             self.renderMessage(title=title, message=message, targetid=wrapperid, btnid='gotoservices')

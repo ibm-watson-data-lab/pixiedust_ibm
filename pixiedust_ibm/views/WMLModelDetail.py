@@ -38,7 +38,7 @@ class WMLModelDetail(WMLMessage):
                 'header': False
             }
             return """
-<div class="pd_title">Details of model <code>{}</code></div>
+<div class="pd_title">Details of Model: {}</div>
 <div class="pd_main pd_modeldetail">
     <div pd_widget="pdTable"></div>
 </div>
@@ -49,7 +49,7 @@ self._pdbutton['btnid']='gotomodels'
 self._pdbutton['label']='Return to Models'
 self._pdbutton['classes']='btn btn-default btn-primary btn-back'
 self._pdbutton['targetid']='{}'
-        </pd_scipt>
+        </pd_script>
     </div>
     <div pd_widget="pdButton">
         <pd_script>
@@ -57,7 +57,7 @@ self._pdbutton['btnid']='gotoform'
 self._pdbutton['label']='Download this Model'
 self._pdbutton['classes']='btn btn-default btn-primary btn-download'
 self._pdbutton['targetid']='{}'
-        </pd_scipt>
+        </pd_script>
     </div>
 </div>
 """.format(self.currentmodel.name, wrapperid, wrapperid)

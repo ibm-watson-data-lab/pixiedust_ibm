@@ -41,7 +41,7 @@ self._pdbutton['btnid']='{}'
 self._pdbutton['label']='Back'
 self._pdbutton['classes']='btn btn-default btn-primary btn-msg'
 self._pdbutton['targetid']='{}'
-        </pd_scipt>
+        </pd_script>
     </div>
 """.format(self._wmlmessage['btnid'], self._wmlmessage['targetid'])
     

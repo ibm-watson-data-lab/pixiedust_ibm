@@ -71,7 +71,7 @@ self._pdbutton['label']='Download from Service'
 self._pdbutton['classes']='btn btn-default btn-primary btn-download'
 self._pdbutton['targetid']='pd_app' + self.getPrefix()
 {% if this.ml_services|length == 0 %}self._pdbutton['attributes']='disabled="disabled"'{% endif %}
-        </pd_scipt>
+        </pd_script>
     </div>
     <div pd_widget="pdButton">
         <pd_script>
@@ -80,7 +80,7 @@ self._pdbutton['label']='Publish to Service'
 self._pdbutton['classes']='btn btn-default btn-primary btn-publish'
 self._pdbutton['targetid']='pd_app' + self.getPrefix()
 {% if this.ml_services|length == 0 %}self._pdbutton['attributes']='disabled="disabled"'{% endif %}
-        </pd_scipt>
+        </pd_script>
     </div>
 </div>
 """

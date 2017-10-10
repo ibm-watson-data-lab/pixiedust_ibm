@@ -41,8 +41,8 @@ class WMLModelPublish(WMLMessage):
                 newname = self.modelformfields[modelnamefield] if modelnamefield in self.modelformfields and self.modelformfields[modelnamefield] else 'mlModel'
                 newdesc = self.modelformfields[modeldescfield] if modeldescfield in self.modelformfields and self.modelformfields[modeldescfield] else ''
 
-                title = 'Publish model <code>' + self.currentmodel.name + '</code>'
-                message = 'Model successfully published as <code>{}</code>.'.format(newname)
+                title = 'Publish model: ' + self.currentmodel.name
+                message = 'Model successfully published as: {}'.format(newname)
                 model = ShellAccess[self.currentmodel.name]
 
                 if len(newdesc):
